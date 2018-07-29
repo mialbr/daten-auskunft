@@ -1,0 +1,53 @@
+﻿<html>
+  <head>
+    <title>Anfrageformular</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   </head>
+    <body>
+<div class="container">
+  <div class="row">    <div class="col-sm-7" id="fragebogen">
+    <div>Zur Auswahl <a href="/index">zurück</a></div>
+    <hr>
+
+
+
+<form action="/datenanfrage?q=send" method="post" name="generator" enctype="multipart/form-data">
+
+
+
+
+{% for field in form %}
+
+{% if field.type in ['CSRFTokenField','HiddenField'] %}
+  {{ field() }}
+
+{% else %}
+
+    {% if field.type == "FileField" %}
+  <p> {{ field.label }} {{form.Ausweisbild(accept="image/*",capture="environment") }}
+  {% for error in field.errors %}
+    </br><span style="color: red;">{{ error }}</span>
+    {% endfor %}
+  </p>
+    {% else %}
+  <p> {{ field.label }} {{ field }}
+    {% for error in field.errors %}
+    </br><span style="color: red;">{{ error }}</span>
+    {% endfor %}
+  </p>
+    {% endif %}
+        {% endif %}
+
+{% endfor %}
+
+<p>Sie können die AGB hier <a href="/static/AGB.pdf" target="_blank">herunterladen</a>.<br/>Nachdem Versand der Anfragen werden eingegebene Daten gelöscht. Um Missbrauch zu vermeiden, wird die Emailadresse anonymisiert protokolliert.</p>
+
+      <p><input type="submit" value="Absenden"></p>
+
+  </form>
+</div></div></div>
+
+  </body>
+</html>
